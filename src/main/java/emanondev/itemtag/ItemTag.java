@@ -30,14 +30,13 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
+@Getter
 public class ItemTag extends APlugin {
 
     private static ItemTag plugin = null;
     private static TagManager tagManager = null;
     private static boolean USE_NBTAPI;
-    @Getter
     private EquipmentChangeListenerBase equipChangeListener;
-    @Getter
     private TargetManager targetManager;
 
     public static ItemTag get() {
@@ -97,8 +96,13 @@ public class ItemTag extends APlugin {
             ActionHandler.registerAction(new DelayedAction());
             ActionHandler.registerAction(new PermissionAction());
             ActionHandler.registerAction(new PlayerCommandAction());
-            ActionHandler.registerAction(new PlayerAsOpCommandAction());
-            ActionHandler.registerAction(new ServerCommandAction());
+
+            if (plugin.getConfig().getBoolean("actions.enableOperatorActions", false)) {
+                this.log("WARNING! You are enabling operator actions on items. This is very risky if there are players with creative mode.");
+                ActionHandler.registerAction(new PlayerAsOpCommandAction());
+                ActionHandler.registerAction(new ServerCommandAction());
+            }
+            
             ActionHandler.registerAction(new SoundAction());
             ActionHandler.registerAction(new MessageAction());
             if (Hooks.isPAPIEnabled()) {
