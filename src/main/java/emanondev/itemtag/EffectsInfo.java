@@ -40,8 +40,9 @@ public class EffectsInfo {
                                                  boolean icon) {
         int duration = type.isInstant() ? 1 : (VersionUtils.isVersionUpTo(1, 19, 3) ?
                 (20 * 3600 * 12) : PotionEffect.INFINITE_DURATION);
-        if (VersionUtils.isVersionAfter(1, 12))
+        if (VersionUtils.isVersionAfter(1, 13)) {
             return new PotionEffect(type, duration, amplifier, ambient, particles, icon);
+        }
         return new PotionEffect(type, duration, amplifier, ambient, particles);
     }
 
