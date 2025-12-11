@@ -1,5 +1,6 @@
 package emanondev.itemtag.actions;
 
+import emanondev.itemedit.ItemEdit;
 import emanondev.itemedit.utility.ItemUtils;
 import emanondev.itemtag.ItemTag;
 import emanondev.itemtag.TagItem;
@@ -154,11 +155,8 @@ public final class ActionsUtility {
         if (metaMap.containsKey("lore")) {
             List<String> lore = new ArrayList<>((Collection<String>) metaMap.get("lore"));
             //that's a bit hardcoded!
-            lore.removeIf((line) -> (line.startsWith(
-                    "{\"italic\":false,\"color\":\"white\",\"translate\":\"item.durability\",\"with\":[{\"text\":\"")
-                    && line.endsWith("\"}]}") || line.startsWith(
-                    "{\"extra\":[{\"bold\":false,\"italic\":false,\"underlined\":false,\"strikethrough\":false,\"obfuscated\":false,\"color\":\"white\",\"text\":\"Durability:")
-                    && line.endsWith("\"}],\"text\":\"\"}")));
+            lore.removeIf((line) -> (line.contains("\"translate\":\"item.durability\"")
+                    || (line.contains("\"text\":\"Durability: ") && line.contains(" / ") && line.contains("\"color\":\"white\""))));
             if (show) {
                 int uses = ActionsUtility.getUses(tagItem);
                 int maxUses = ActionsUtility.getMaxUses(tagItem);
